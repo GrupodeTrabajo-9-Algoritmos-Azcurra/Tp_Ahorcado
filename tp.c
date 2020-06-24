@@ -35,31 +35,74 @@ int validar_existencia_categoria(Tstring categoria, Tcategoria Vcategorias, int 
 	return posicion;
 }
 
-//Validacion de palabras
-bool validar_palabra(Tstring palabra) {
-	bool palabra_valida=true;
-	
-	limpiar_salto(palabra);
-	
-	if(strlen(palabra)<=5 || strlen(palabra)>=51) {
-		palabra_valida=false;
-	} else {
-		int i=0;
-		while(palabra_valida && i<strlen(palabra)) {
-			if(palabra[i]!=32 && (palabra[i]<65 || palabra[i]>90)) {
-				palabra_valida=false;
+//Validar Palabra o Categoria.(LONGITUD Y MAYUSCULA).
+bool validar_palabra_categoria(Tstring palabra_categoria){
+	bool validacion = true;
+	limpiar_salto(palabra_categoria);
+
+	if (strlen(palabra_categoria) <= 5 || strlen(palabra_categoria) >= 51){
+		validacion = false;
+	}else{
+		int i = 0;
+		while (validacion && i < strlen(palabra_categoria))
+		{if (palabra_categoria[i] != 32 && (palabra_categoria[i] < 65 || palabra_categoria[i] > 90)){
+				validacion = false;
 			}
 			i++;
 		}
 	}
-	
-	return palabra_valida;
+	return validacion;
+}
+
+//Ingreso Categoria.
+void ingresar_categoria(Tstring categoria, Tcategoria Vcategorias, int cont_categorias){
+	bool ingreso_listo, categoria_valida_longitud_mayuscula;
+	int categoria_valida_existencia = 0;
+	Tstring categoria_aux;
+	char opcion;
+
+	ingreso_listo = false;
+	while (ingreso_listo == false){
+		//Ingresar categoria.
+		do{
+			printf("Ingresa una categoria:\n");
+			fgets(categoria_aux, MAX_STR, stdin);
+			fflush(stdin);
+			categoria_valida_longitud_mayuscula = validar_palabra_categoria(categoria_aux);
+			if (!categoria_aux){
+				printf("La categoria debe estar en mayusculas y tener entre 5 y 49 caracteres\n");
+			}
+			categoria_valida_existencia = validar_existencia_categoria(categoria_aux, Vcategorias, cont_categorias);
+			if (categoria_valida_existencia != -1){
+				printf("La categoria ya existe.\n");
+			}
+
+		} while (!categoria_valida_longitud_mayuscula || categoria_valida_existencia != -1);
+
+		//Registrar categoria.
+		strcpy(Vcategorias[cont_categorias], categoria_aux);
+		cont_categorias = cont_categorias + 1;
+
+		//Chequear si el usuario desea ingresar otra categoria.
+		do{
+			printf("Deseas ingresar otra categoria(s/n)?\n");
+			scanf("%c", &opcion);
+			fflush(stdin);
+			if (opcion == 'n')
+			{
+				ingreso_listo = true;
+			}
+		} while (opcion != 's' && opcion != 'n');
+
+		//Limpiar pantalla
+		system("@cls||clear");
+	}
 }
 
 //Ingreso  palabras, pista y asignacion de categoria.
 void ingresar_palabras(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_categorias, int cont_palabras[MAX_PAL]) {
 	bool ingreso_listo, palabra_valida;
-	int i=0, indice_categoria;
+	int indice_categoria;
 	char opcion;
 	Tstring palabra_aux, pista_aux, categoria_aux;
 	
@@ -70,7 +113,7 @@ void ingresar_palabras(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra
 			printf("Ingresa una palabra:\n");
 			fgets(palabra_aux, MAX_STR, stdin);
 			fflush(stdin);
-			palabra_valida=validar_palabra(palabra_aux);
+			palabra_valida=validar_palabra_categoria(palabra_aux);
 			if(!palabra_valida) {
 				printf("La palabra debe estar en mayusculas y tener entre 5 y 49 caracteres\n");
 			}
@@ -110,7 +153,6 @@ void ingresar_palabras(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra
 		
 		//Limpiar pantalla
 		system("@cls||clear");
-		i++;
 	}
 }
 
