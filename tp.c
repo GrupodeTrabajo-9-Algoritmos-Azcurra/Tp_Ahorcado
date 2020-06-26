@@ -208,6 +208,32 @@ void mostrar_alfabeticamente(Tpalabra_pista palabras, int indice_categoria, int 
 	}
 }
 
+void mostrar_categorias_alfabeticamente(Tcategoria Vcategorias, int cont_categorias)
+{
+	int i, j;
+	Tstring categoria_aux;
+
+	//Ordenar con burbujeo
+	for (i = 1; i < cont_categorias; i++)
+	{
+		for (j = 0; j < cont_categorias - i; j++)
+		{
+			if (strcmp(Vcategorias[j], Vcategorias[j + 1]) == 1)
+			{
+				strcpy(categoria_aux, Vcategorias[j]);
+				strcpy(Vcategorias[j], Vcategorias[j + 1]);
+				strcpy(Vcategorias[j + 1], categoria_aux);
+			}
+		}
+	}
+
+	//Mostrar en pantalla vector ordenado
+	for (i = 0; i < cont_categorias; i++)
+	{
+		printf("%s\n", Vcategorias[j]);
+	}
+}
+
 void listar_palabras_de_categoria(Tcategoria Vcategorias, Tpalabra_pista palabras, int cont_palabras[MAX_PAL], int cont_categorias)
 {
 	Tstring categoria_aux;
