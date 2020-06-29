@@ -24,7 +24,7 @@ void limpiar_salto(Tstring cadena)
 //Valida la existencia de una categoria y retorna la posicion del vector
 int validar_existencia_categoria(Tstring categoria, Tcategoria Vcategorias, int cont_categorias)
 {
-	int posicion = -1, i = 0, len;
+	int posicion = -1, i = 0;
 
 	limpiar_salto(categoria);
 
@@ -294,11 +294,109 @@ void mostrar_todas_las_palabras(Tpalabra_pista palabras, int tot_palabras, int c
 	}
 }
 
+
+
+bool verificar_letra(Tstring letra, Tstring formando_palabra, Tstring letras_error, Tstring palabra)
+{
+    int i = 0;
+    if ((((int)letra[0]>64)&&((int)letra[0]<91)) || (((int)letra[0]>96)&&((int)letra[0]<123)))
+    {
+        if (strstr(palabra, strlwr(letra)) == NULL)
+        {
+            if (strstr(letras_error, strlwr(letra)) == NULL)
+            {
+                strncat(letras_error, strlwr(letra),1);
+                imprimir_letra("0", letras_error);
+            }else{
+                printf("Letra ya ingresada.\n");
+            }
+        }
+        else
+        {
+            if (strstr(formando_palabra, strlwr(letra)) == NULL)
+            {
+                imprimir_letra(strlwr(letra));
+                for(i=0; i < cantida_letras(palabra, strlwr(letra)); i++)
+                {
+                    strncat(formando_palabra,strlwr(letra),1);
+                }
+            }else{
+                printf("Letra ya ingresada.\n");
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+void imprimir_ahorcado(Tstring palabra)
+{
+    Tstring letra, formando_palabra, letras_error;
+    int i =0, j = -1;                           //Esto se deberia poner en una funcion
+    Tstring palabra_arreglada;
+    for(i = 0; i<strlen(palabra); i++)
+    {
+        if (palabra[i] != ' ')
+        {
+            j++;
+            palabra_arreglada[j] = palabra[i];
+        }
+    }
+    strcpy(palabra_arreglada, strlwr(palabra_arreglada));                       //Hasta aca, pero no se como devolver una cadena por funcion
+    bool victoria = false, max_palabras = false;
+    while ((victoria == false) && (max_palabras == false))
+    {
+        printf("Ingrese una letra: ");
+        scanf("%s", letra);
+        fflush(stdin);
+        while(verificar_letra(letra, formando_palabra, letras_error, palabra_arreglada) == false){
+            printf("Ingrese nuevamente: ");
+            scanf("%s", letra);
+            fflush(stdin);
+        }
+        if (strlen(letras_error) >= 6)
+        {
+            max_palabras = true;
+        }
+        if (strlen(palabra_arreglada) == strlen(formando_palabra))
+        {
+            victoria = true;
+        }
+    }
+}
+
+void imprimir_letra(Tstring letra, Tstring letras_error)
+{
+    int i = 0;
+    if (letra[0] != '0')
+    {
+        printf("Letra correcta\n");
+    }else{
+        printf("%s\n", letras_error);
+    }
+}
+
+
+int cantida_letras(Tstring palabra, Tstring letra)
+{
+    int i = 0, contador = 0;
+    for(i=0; i< (int)strlen(palabra);i++)
+    {
+        if (palabra[i] == letra[0])
+        {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+
+
 int main()
 {
 	Tcategoria Vcategorias;											   //Vector de categorias.
 	Tpalabra_pista palabras, pistas;								   //Matrices de palabras y pistas respectivamente.
 	int tot_palabras = 0, cont_categorias = 0, cont_palabras[MAX_CAT]; //Contador de palabras, de categorias y de palabras por categoria.
-
+	//imprimir_ahorcado("Palabra para jugar");
 	return 0;
 }
