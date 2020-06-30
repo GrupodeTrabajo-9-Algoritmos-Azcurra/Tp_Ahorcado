@@ -24,7 +24,7 @@ void limpiar_salto(Tstring cadena)
 //Valida la existencia de una categoria y retorna la posicion del vector
 int validar_existencia_categoria(Tstring categoria, Tcategoria Vcategorias, int cont_categorias)
 {
-	int posicion = -1, i = 0, len;
+	int posicion = -1, i = 0;
 
 	limpiar_salto(categoria);
 
@@ -40,8 +40,25 @@ int validar_existencia_categoria(Tstring categoria, Tcategoria Vcategorias, int 
 	return posicion;
 }
 
+//Valida la existencia de una palabra y retorna la posicion del vector en la fila de la categoria correspondiente.
+int validar_existencia_palabra(Tstring palabra, Tpalabra_pista palabras, int indice_categoria, int cont_palabras[MAX_CAT])
+{
+	int posicion = -1, i = 0;
+
+	limpiar_salto(palabra);
+
+	while (posicion == -1 && i < cont_palabras[indice_categoria])
+	{
+		if (strcmp(palabra, palabras[indice_categoria][i]) == 0)
+		{
+			posicion = i;
+		}
+		i++;
+	}
+}
+
 //Validar Palabra o Categoria.(LONGITUD Y MAYUSCULA).
-bool validar_palabra_categoria(Tstring palabra_categoria)
+bool validar_long_mayus(Tstring palabra_categoria)
 {
 	bool validacion = true;
 	limpiar_salto(palabra_categoria);
@@ -82,11 +99,13 @@ void ingresar_categoria(Tstring categoria, Tcategoria Vcategorias, int cont_cate
 			printf("Ingresa una categoria:\n");
 			fgets(categoria_aux, MAX_STR, stdin);
 			fflush(stdin);
-			categoria_valida_longitud_mayuscula = validar_palabra_categoria(categoria_aux);
+			//Validacion de longitud y caracteres en mayuscula.
+			categoria_valida_longitud_mayuscula = validar_long_mayus(categoria_aux);
 			if (!categoria_aux)
 			{
 				printf("La categoria debe estar en mayusculas y tener entre 5 y 49 caracteres\n");
 			}
+			//Validacion de existencia.
 			categoria_valida_existencia = validar_existencia_categoria(categoria_aux, Vcategorias, cont_categorias);
 			if (categoria_valida_existencia != -1)
 			{
@@ -120,32 +139,13 @@ void ingresar_categoria(Tstring categoria, Tcategoria Vcategorias, int cont_cate
 void ingresar_palabras(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_categorias, int cont_palabras[MAX_PAL], int tot_palabras)
 {
 	bool ingreso_listo, palabra_valida;
-	int indice_categoria;
+	int indice_categoria, palabra_valida_existencia = 0;
 	char opcion;
 	Tstring palabra_aux, pista_aux, categoria_aux;
 
 	ingreso_listo = false;
 	while (ingreso_listo == false)
 	{
-		//Ingresar palabra
-		do
-		{
-			printf("Ingresa una palabra:\n");
-			fgets(palabra_aux, MAX_STR, stdin);
-			fflush(stdin);
-			palabra_valida = validar_palabra_categoria(palabra_aux);
-			if (!palabra_valida)
-			{
-				printf("La palabra debe estar en mayusculas y tener entre 5 y 49 caracteres\n");
-			}
-		} while (!palabra_valida);
-
-		//Ingresar pista
-		printf("Ingresa una pista para la palabra:\n");
-		fgets(pista_aux, MAX_STR, stdin);
-		fflush(stdin);
-		limpiar_salto(pista_aux);
-
 		//Asignar categoria
 		do
 		{
@@ -158,6 +158,32 @@ void ingresar_palabras(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra
 				printf("La categoria ingresada no existe.\n");
 			}
 		} while (indice_categoria == -1);
+
+		//Ingresar palabra
+		do
+		{
+			printf("Ingresa una palabra:\n");
+			fgets(palabra_aux, MAX_STR, stdin);
+			fflush(stdin);
+			//Validacion de longitud y cantidad de caracteres.
+			palabra_valida = validar_long_mayus(palabra_aux);
+			if (!palabra_valida)
+			{
+				printf("La palabra debe estar en mayusculas y tener entre 5 y 49 caracteres\n");
+			}
+			//Validacion de existencia.
+			palabra_valida_existencia = validar_existencia_palabra(palabra_aux, palabras, indice_categoria, cont_palabras);
+			if (palabra_valida_existencia != -1)
+			{
+				printf("La palabra ya existe.\n");
+			}
+		} while (!palabra_valida || palabra_valida_existencia != -1);
+
+		//Ingresar pista
+		printf("Ingresa una pista para la palabra:\n");
+		fgets(pista_aux, MAX_STR, stdin);
+		fflush(stdin);
+		limpiar_salto(pista_aux);
 
 		//Insertar variables auxiliares un su matriz correspondiente e incrementar contador
 		strcpy(palabras[indice_categoria][cont_palabras[indice_categoria]], palabra_aux);
@@ -258,7 +284,7 @@ void listar_palabras_de_categoria(Tcategoria Vcategorias, Tpalabra_pista palabra
 	mostrar_alfabeticamente(palabras, indice_categoria, cont_palabras);
 }
 
-//Mostrar todas las palabras en orden descendente.
+//Mostrar todas las palabras por cantidad de caracteres en orden descendente.
 void mostrar_todas_las_palabras(Tpalabra_pista palabras, int tot_palabras, int cont_categorias, int cont_palabras[MAX_CAT])
 {
 	int i, j, k = 0;
