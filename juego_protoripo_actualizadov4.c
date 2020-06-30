@@ -343,7 +343,7 @@ void ordenar_ganador(Participantes vec_jugadores[], Participantes aux[], int can
     if (cantidad_partidas > 1){
         for(i=0;i<cantidad_jugadores;i++){
             for (int j=0 ; j < cantidad_jugadores - 1; j++){
-                if (vec_jugadores[j].puntaje_actual > vec_jugadores[j+1].puntaje_actual){
+                if ((vec_jugadores[j].puntaje_actual) > (vec_jugadores[j+1].puntaje_actual)){
                     strcpy(aux[j].nombre_participantes, vec_jugadores[j].nombre_participantes);
                     strcpy(vec_jugadores[j].nombre_participantes, vec_jugadores[j+1].nombre_participantes);
                     strcpy(vec_jugadores[j+1].nombre_participantes, aux[j].nombre_participantes);
