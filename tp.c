@@ -101,7 +101,7 @@ void ingresar_categoria(Tstring categoria, Tcategoria Vcategorias, int cont_cate
 			fflush(stdin);
 			//Validacion de longitud y caracteres en mayuscula.
 			categoria_valida_longitud_mayuscula = validar_long_mayus(categoria_aux);
-			if (!categoria_aux)
+			if (!categoria_valida_longitud_mayuscula)
 			{
 				printf("La categoria debe estar en mayusculas y tener entre 5 y 49 caracteres\n");
 			}
