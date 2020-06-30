@@ -232,7 +232,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\n!AHORCADO¡\n\n");
+		printf("\n\n!AHORCADOÂ¡\n\n");
 		vec_valor[numero_jugador].puntaje = 10;
 		system("PAUSE");
 		system("cls");
@@ -241,7 +241,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 		system("@cls||clear");
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
 		printf("\n\nSE HA COMPLETADO LA PALABRA\n\n");
-		vec_valor[numero_jugador].puntaje = intentos-1;
+		vec_valor[numero_jugador].puntaje = intentos-1; //Aca a veces se genera un error y no logro descubrir porque. Dice que no puede acceder a esa direccion de memoria.
 		system("PAUSE");
 		system("cls");
 	}
