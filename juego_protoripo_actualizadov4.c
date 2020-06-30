@@ -12,17 +12,13 @@ typedef char Tstring[MAX_STR];
 typedef Tstring Tcategoria[MAX_CAT];
 typedef Tstring Tpalabra_pista[MAX_CAT][MAX_PAL];
 
+
 typedef struct {
-    int identificador;
     Tstring nombre_participantes;
     int puntaje_actual;
     int puntaje_total;
 }Participantes;
 
-typedef struct{
-    int identificador;
-    int puntaje;
-}Valor;
 
 typedef char cadena[max_caracteres];
 
@@ -226,14 +222,14 @@ return;
 }
 
 
-void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_ingresadas,int intentos, int numero_jugador, Valor vec_valor[])
+void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_ingresadas,int intentos, int numero_jugador, int valor[])
 {
 	if (intentos==max_intentos+1){
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
 		printf("\n\n!AHORCADO¡\n\n");
-		vec_valor[numero_jugador].puntaje = 10;
+		valor[numero_jugador] = 10;
 		system("PAUSE");
 		system("cls");
 	}
@@ -241,7 +237,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 		system("@cls||clear");
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
 		printf("\n\nSE HA COMPLETADO LA PALABRA\n\n");
-		vec_valor[numero_jugador].puntaje = intentos-1; //Aca a veces se genera un error y no logro descubrir porque. Dice que no puede acceder a esa direccion de memoria.
+		valor[numero_jugador] = intentos-1;
 		system("PAUSE");
 		system("cls");
 	}
@@ -250,10 +246,10 @@ return;
 }
 
 
-void juego_prototipo(cadena palabra_secreta,cadena pista, int cantidad_jugadores, Valor vec_valor[])
+void juego_prototipo(cadena palabra_secreta,cadena pista, int cantidad_jugadores, int valor)
 {
     int numero_jugador = 0;
-    for (numero_jugador=0; numero_jugador<cantidad_jugadores; numero_jugador++){
+    for (numero_jugador=0; numero_jugador < cantidad_jugadores; numero_jugador++){
         int posicion,intentos=1;
         cadena palabra_mostrar,letras_ingresadas,letra_ingresada;
         letras_ingresadas[0]='\0';                                    //Inicio el string
@@ -268,7 +264,7 @@ void juego_prototipo(cadena palabra_secreta,cadena pista, int cantidad_jugadores
                 pantalla_equivocado(palabra_mostrar,letras_ingresadas,letra_ingresada,intentos);
             }
         } while (intentos<=max_intentos && strcmp(palabra_mostrar,palabra_secreta)!=0);
-        pantalla_final(palabra_secreta,palabra_mostrar,letras_ingresadas,intentos, numero_jugador, vec_valor);
+        pantalla_final(palabra_secreta,palabra_mostrar,letras_ingresadas,intentos, numero_jugador, valor);
     }
 return;
 }
@@ -299,10 +295,8 @@ void cargar_jugadores(Participantes vec_jugadores[], Participantes vec_jugadores
     printf("Ingrese los nombres de los jugadores: ");
     fflush(stdin);
     scanf("%s", vec_jugadores[i].nombre_participantes);
-    vec_jugadores[i].identificador = j;
     vec_jugadores[i].puntaje_actual = 0;
     vec_jugadores[i].puntaje_total = 0;
-    vec_jugadores_ordenados[i].identificador = vec_jugadores[i].identificador;
     vec_jugadores_ordenados[i].puntaje_actual = vec_jugadores[i].puntaje_actual;
     vec_jugadores_ordenados[i].puntaje_total = vec_jugadores[i].puntaje_total;
     strcpy(vec_jugadores_ordenados[i].nombre_participantes, vec_jugadores[i].nombre_participantes);
@@ -317,20 +311,19 @@ void mostrar_estatus(Participantes vec_jugadores[], Participantes aux[1], int ca
         printf("\n\nPartidas restantes: %d \n\n", (cantidad_partidas-1));
         for(i=0;i<cantidad_jugadores;i++)
         {
-            printf("\n\n Participante numero: %d", vec_jugadores[i].identificador);
-            printf("\n Nombres: %s ", vec_jugadores[i].nombre_participantes);
-            printf("\n Puntos actuales: %d ", vec_jugadores[i].puntaje_actual);
-            printf("\n Puntos totales: %d\n\n\n", vec_jugadores[i].puntaje_total);
-
+            printf("Puesto: %d", i+1);
+            printf("\nNombre: %s ", vec_jugadores[i].nombre_participantes);
+            printf("\nPuntos actuales: %d ", vec_jugadores[i].puntaje_actual);
+            printf("\nPuntos totales: %d\n\n\n", vec_jugadores[i].puntaje_total);
         }
     }else{
         printf("\n\n\nResultados finales:  \n\n", cantidad_partidas);
         for(i=0;i<cantidad_jugadores;i++)
         {
-            printf("\n\n Participante numero: %d", vec_jugadores[i].identificador);
-            printf("\n Nombres: %s ", vec_jugadores[i].nombre_participantes);
-            printf("\n Puntos actuales: %d ", vec_jugadores[i].puntaje_actual);
-            printf("\n Puntos totales: %d\n\n\n", vec_jugadores[i].puntaje_total);
+            printf("Puesto: %d", i+1);
+            printf("\nNombre: %s ", vec_jugadores[i].nombre_participantes);
+            printf("\nPuntos actuales: %d ", vec_jugadores[i].puntaje_actual);
+            printf("\nPuntos totales: %d\n\n\n", vec_jugadores[i].puntaje_total);
 
         }
     }
@@ -353,9 +346,6 @@ void ordenar_ganador(Participantes vec_jugadores[], Participantes aux[], int can
                     aux[j].puntaje_total = vec_jugadores[j].puntaje_total;
                     vec_jugadores[j].puntaje_total = vec_jugadores[j+1].puntaje_total;
                     vec_jugadores[j+1].puntaje_total = aux[j].puntaje_total;
-                    aux[j].identificador = vec_jugadores[i].identificador;
-                    vec_jugadores[j].identificador = vec_jugadores[j+1].identificador;
-                    vec_jugadores[j+1].identificador = aux[j].identificador;
                 }
             }
         }
@@ -373,23 +363,19 @@ void ordenar_ganador(Participantes vec_jugadores[], Participantes aux[], int can
                     aux[j].puntaje_total = vec_jugadores[j].puntaje_total;
                     vec_jugadores[j].puntaje_total = vec_jugadores[j+1].puntaje_total;
                     vec_jugadores[j+1].puntaje_total = aux[j].puntaje_total;
-                    aux[j].identificador = vec_jugadores[i].identificador;
-                    vec_jugadores[j].identificador = vec_jugadores[j+1].identificador;
-                    vec_jugadores[j+1].identificador = aux[j].identificador;
                 }
             }
         }
     }
 }
 
-void modificar_valores(Valor vec_valor[], Participantes vec_jugadores[], Participantes vec_jugadoresord[], int cantidad_partidas, int cantidad_jugadores){
+void modificar_valores(int valor[], Participantes vec_jugadores[], Participantes vec_jugadoresord[], int cantidad_partidas, int cantidad_jugadores){
     int i = 0, j = 0;
     for (j=0; j<cantidad_jugadores; j++){
-        vec_jugadoresord[j].puntaje_actual = vec_valor[j].puntaje;
-        vec_jugadoresord[j].puntaje_total += vec_valor[j].puntaje;
+        vec_jugadoresord[j].puntaje_actual = valor[j];
+        vec_jugadoresord[j].puntaje_total += valor[j];
     }
     for(i=0; i<cantidad_jugadores; i++){
-        vec_jugadores[i].identificador = vec_jugadoresord[i].identificador;
         vec_jugadores[i].puntaje_actual = vec_jugadoresord[i].puntaje_actual;
         vec_jugadores[i].puntaje_total = vec_jugadoresord[i].puntaje_total;
         strcpy(vec_jugadores[i].nombre_participantes, vec_jugadoresord[i].nombre_participantes);
@@ -406,7 +392,7 @@ int main()
     cantidad_jugadores = cantidad_jugadoress();
     cantidad_partidas = cantidad_partidass();
     Participantes participantes[cantidad_jugadores], Aux[1], participantes_ordenado[cantidad_jugadores];
-    Valor valor[cantidad_jugadores];
+    int valor[cantidad_jugadores];
     cargar_jugadores(participantes, participantes_ordenado, cantidad_jugadores);
     while (cantidad_partidas > 0){
         cadena pista,letra_ingresada;
@@ -429,3 +415,4 @@ int main()
     }
     return 0;
 }
+
