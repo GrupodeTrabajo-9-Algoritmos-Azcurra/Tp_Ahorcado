@@ -218,6 +218,7 @@ void ingresar_palabras(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra
 	system("PAUSE");
 }
 
+//Muestra palabras en orden alfabetico
 void mostrar_alfabeticamente(Tpalabra_pista palabras, int indice_categoria, int cont_palabras[MAX_PAL])
 {
 	int i, j;
@@ -244,6 +245,7 @@ void mostrar_alfabeticamente(Tpalabra_pista palabras, int indice_categoria, int 
 	}
 }
 
+//Muestra categorias en orden alfabetico
 void mostrar_categorias_alfabeticamente(Tcategoria Vcategorias, int cont_categorias)
 {
 	int i, j;
