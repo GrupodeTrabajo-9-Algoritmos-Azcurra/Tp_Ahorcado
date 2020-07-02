@@ -292,7 +292,7 @@ void cargar_jugadores(Participantes vec_jugadores[], Participantes vec_jugadores
     Tstring nombre;
     for (i = 0; i < cantidad_jugadores; i++)
     {
-    printf("Ingrese los nombres de los jugadores: ");
+    printf("Ingrese nombre de jugador: ");
     fflush(stdin);
     scanf("%s", vec_jugadores[i].nombre_participantes);
     vec_jugadores[i].puntaje_actual = 0;
