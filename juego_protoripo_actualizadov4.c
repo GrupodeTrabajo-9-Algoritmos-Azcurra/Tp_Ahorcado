@@ -109,7 +109,7 @@ return;
 void validar_letra(cadena letra)
 {
 	while (strlen(letra)>1){
-		printf("Por ingrese solo una letra\n");
+		printf("Ingrese solo una letra\n");
 		input_string(letra);
 	}
 
