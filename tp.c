@@ -352,27 +352,30 @@ void menu_listado(Tcategoria Vcategorias, Tpalabra_pista palabras, int cont_cate
 	fflush(stdin);
 	system("@cls||clear");
 	
-	if(opcion_menu_listado==1) {
-		//Mostrar categorias ordenadas alfabeticamente en forma ascendente
-		mostrar_categorias_alfabeticamente(Vcategorias, cont_categorias);
-		system("@cls||clear");
-		menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
-	} else if(opcion_menu_listado==2) {
-		//Mostrar palabras ordenadas por cantidad de caracteres en forma descendente
-		mostrar_todas_las_palabras(palabras, tot_palabras, cont_categorias, cont_palabras);
-		system("@cls||clear");
-		menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
-	} else if(opcion_menu_listado==3) {
-		//Ingresar una categoria y mostrar todas las palabras ordenadas alfabeticamente
-		listar_palabras_de_categoria(Vcategorias, palabras, cont_palabras, cont_categorias);
-		system("@cls||clear");
-		menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
-	} else if(opcion_menu_listado==4) {
-		//Continuar al juego
-	} else {
-		//Opcion invalida
-		printf("La opcion ingresada no es valida, intentalo de nuevo.\n\n");
-		menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
+	switch(opcion_menu_listado){
+		case 1://Mostrar categorias ordenadas alfabeticamente en forma ascendente
+			mostrar_categorias_alfabeticamente(Vcategorias, cont_categorias);
+			system("@cls||clear");
+			menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
+			break;
+		case 2:	//Mostrar palabras ordenadas por cantidad de caracteres en forma descendente
+			mostrar_todas_las_palabras(palabras, tot_palabras, cont_categorias, cont_palabras);
+			system("@cls||clear");
+			menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
+			break;
+		case 3://Ingresar una categoria y mostrar todas las palabras ordenadas alfabeticamente
+			listar_palabras_de_categoria(Vcategorias, palabras, cont_palabras, cont_categorias);
+			system("@cls||clear");
+			menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
+			break;
+		case 4:
+			//Continuar al juego
+			break;
+		default:
+			//Opcion invalida
+			printf("La opcion ingresada no es valida, intentalo de nuevo.\n\n");
+			menu_listado(Vcategorias, palabras, cont_categorias, cont_palabras, tot_palabras);
+			break;
 	}
 }
 
@@ -389,23 +392,24 @@ void menu_ingreso(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra_pist
 	fflush(stdin);
 	system("@cls||clear");
 	
-	if(opcion_menu_ingreso==1) {
-		//Ingresar categorias
-		ingresar_categoria(Vcategorias, cont_categorias);
-		system("@cls||clear");
-		menu_ingreso(Vcategorias, palabras, pistas, cont_palabras, cont_categorias, tot_palabras);
-	} else if(opcion_menu_ingreso==2) {
-		//Ingresar palabras
-		ingresar_palabras(Vcategorias, palabras, pistas, *cont_categorias, cont_palabras, tot_palabras);
-		system("@cls||clear");
-		menu_ingreso(Vcategorias, palabras, pistas, cont_palabras, cont_categorias, tot_palabras);
-	} else if(opcion_menu_ingreso==3) {
-		//Continuar al menu de listados
-		 menu_listado(Vcategorias, palabras, *cont_categorias, cont_palabras, *tot_palabras);
-	} else {
-		//Opcion invalida
-		printf("La opcion ingresada no es valida, intentalo de nuevo.\n\n");
-		menu_ingreso(Vcategorias, palabras, pistas, cont_palabras, cont_categorias, tot_palabras);
+	switch(opcion_menu_ingreso){
+		case 1: //Ingresar categorias
+			ingresar_categoria(Vcategorias, cont_categorias);
+			system("@cls||clear");
+			menu_ingreso(Vcategorias, palabras, pistas, cont_palabras, cont_categorias, tot_palabras);
+			break;
+		case 2: //Ingresar palabras
+			ingresar_palabras(Vcategorias, palabras, pistas, *cont_categorias, cont_palabras, tot_palabras);
+			system("@cls||clear");
+			menu_ingreso(Vcategorias, palabras, pistas, cont_palabras, cont_categorias, tot_palabras);
+			break;
+		case 3: //Continuar al menu de listados
+			menu_listado(Vcategorias, palabras, *cont_categorias, cont_palabras, *tot_palabras);
+			break;
+		default: //Opcion invalida
+			printf("La opcion ingresada no es valida, intentalo de nuevo.\n\n");
+			menu_ingreso(Vcategorias, palabras, pistas, cont_palabras, cont_categorias, tot_palabras);
+			break;
 	}
 }
 
