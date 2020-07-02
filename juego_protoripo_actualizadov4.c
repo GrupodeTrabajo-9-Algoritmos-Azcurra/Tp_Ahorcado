@@ -351,7 +351,7 @@ void ordenar_ganador(Participantes vec_jugadores[], Participantes aux[], int can
         }
     }else{
         for(i=0;i<cantidad_jugadores;i++){
-            for (int j=0 ; j < cantidad_jugadores - 1; j++){
+            for (j=0 ; j < cantidad_jugadores - 1; j++){
                 if ((vec_jugadores[j].puntaje_total) > (vec_jugadores[j+1].puntaje_total))
                 {
                     strcpy(aux[j].nombre_participantes, vec_jugadores[j].nombre_participantes);
