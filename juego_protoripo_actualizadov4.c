@@ -228,7 +228,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\n!AHORCADO¡\n\n");
+		printf("\n\n%cAHORCADO!\n\n",173);
 		valor[numero_jugador] = 10;
 		system("PAUSE");
 		system("cls");
