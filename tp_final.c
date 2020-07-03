@@ -39,9 +39,7 @@ void limpiar_salto(cadena cadena)
 void partida(Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_palabras[max_categorias], int cont_categorias, int tot_palabras);
 
 /* 
-
 MODULOS DEL MENU DE INGRESO Y LISTADO 
-
 */
 
 //Valida la existencia de una categoria y retorna su posicion en el vector
@@ -86,7 +84,7 @@ int validar_existencia_palabra(cadena palabra, Tpalabra_pista palabras, int indi
 bool validar_pista(cadena pista, cadena palabra) {
 	bool pista_valida=true;
 
-	if(strlen(pista)>1 || strstr(palabra, pista)==0 || pista[0]==32) {
+	if(strlen(pista)!=1 || strstr(palabra, pista)==0 || pista[0]==32) {
 		pista_valida=false;
 	}
 	
@@ -485,9 +483,7 @@ void menu_ingreso(Tcategoria Vcategorias, Tpalabra_pista palabras, Tpalabra_pist
 }
 
 /* 
-
 MODULOS DEL FUNCIONAMIENTO DEL JUEGO
-
 */
 
 /*DIBUJO AHORCADO */
@@ -539,33 +535,33 @@ void dibujo_colgado(int veces_errado)
 /*Partida*/
 
 
-int ascii(char letra)    // Esta funci√≥n es en el caso de que no corresponda el valor de las letras con el de la tabla ASCII  
+int ascii(char letra)    // Esta funciÛn es en el caso de que no corresponda el valor de las letras con el de la tabla ASCII  
 {
 	int letra_en_ascii;
 	switch(letra){
-		case '√ë': letra_en_ascii=165;
+		case '—': letra_en_ascii=165;
 		break;
-		case '√Å': letra_en_ascii=181;
+		case '¡': letra_en_ascii=181;
 		break;
-		case '√â': letra_en_ascii=144;
+		case '…': letra_en_ascii=144;
 		break;
-		case '√ç': letra_en_ascii=214;
+		case 'Õ': letra_en_ascii=214;
 		break;
-		case '√ì': letra_en_ascii=224;
+		case '”': letra_en_ascii=224;
 		break;
-		case '√ö': letra_en_ascii=233;
+		case '⁄': letra_en_ascii=233;
 		break;
-		case '√±': letra_en_ascii=164;
+		case 'Ò': letra_en_ascii=164;
 		break;
-		case '√°': letra_en_ascii=160;
+		case '·': letra_en_ascii=160;
 		break;
-		case '√©': letra_en_ascii=130;
+		case 'È': letra_en_ascii=130;
 		break;
-		case '√≠': letra_en_ascii=161;
+		case 'Ì': letra_en_ascii=161;
 		break;
-		case '√≥': letra_en_ascii=162;
+		case 'Û': letra_en_ascii=162;
 		break;
-		case '√∫': letra_en_ascii=163;
+		case '˙': letra_en_ascii=163;
 		break;
 	}
 		
@@ -594,7 +590,7 @@ bool buscar_letra(cadena palabra_secreta,cadena letra_ingresada)
 }
 
 
-//Inicia la cadena que se muestra al lado del colgado con _ y ' ' seg√∫n corresponda
+//Inicia la cadena que se muestra al lado del colgado con _ y ' ' seg˙n corresponda
 void poner_guion_bajo(cadena palabra_mostrar,cadena palabra_secreta)
 {
 	int posicion;
@@ -672,7 +668,7 @@ void pantalla_actual(cadena palabra_mostrar,cadena letras_ingresadas,int intento
 bool letra_valida(char letra)
 {
 	bool valido=false;
-	if ((letra<='Z' && letra>='A') || letra==(char)ascii('√ë') || letra==(char)ascii('√Å') || letra==(char)ascii('√â') || letra==(char)ascii('√ç') || letra==(char)ascii('√ì') || letra==(char)ascii('√ö'))
+	if ((letra<='Z' && letra>='A') || letra==(char)ascii('—') || letra==(char)ascii('¡') || letra==(char)ascii('…') || letra==(char)ascii('Õ') || letra==(char)ascii('”') || letra==(char)ascii('⁄'))
 		valido=true;
 	
 	return valido;	
@@ -701,14 +697,14 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\n!AHORCADO¬°\n\n");
+		printf("\n\n!AHORCADO°\n\n");
 		vec_valor[numero_jugador].puntaje = 10;
 		system("PAUSE");
 		system("@cls||clear");
 	} else {
 		system("@cls||clear");
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\n!SE HA COMPLETADO LA PALABRA¬°\n\n");
+		printf("\n\n!SE HA COMPLETADO LA PALABRA°\n\n");
 		vec_valor[numero_jugador].puntaje = intentos-1; //Aca a veces se genera un error y no logro descubrir porque. Dice que no puede acceder a esa direccion de memoria.
 		system("PAUSE");
 		system("@cls||clear");
