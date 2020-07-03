@@ -716,7 +716,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 }
 
 
-//Logica del juego uinendo las funciones anteriores
+//Logica del juego uniendo las funciones anteriores
 void juego(cadena palabra_secreta,cadena pista, int cantidad_jugadores, Valor vec_valor[])
 {
     int numero_jugador = 0;
