@@ -536,6 +536,40 @@ void dibujo_colgado(int veces_errado)
 
 /*Partida*/
 
+int ascii(char letra)
+{
+	int letra_en_ascii;
+	switch(letra){
+		case 'Ñ': letra_en_ascii=165;
+		break;
+		case 'Á': letra_en_ascii=181;
+		break;
+		case 'É': letra_en_ascii=144;
+		break;
+		case 'Í': letra_en_ascii=214;
+		break;
+		case 'Ó': letra_en_ascii=224;
+		break;
+		case 'Ú': letra_en_ascii=233;
+		break;
+		case 'ñ': letra_en_ascii=164;
+		break;
+		case 'á': letra_en_ascii=160;
+		break;
+		case 'é': letra_en_ascii=130;
+		break;
+		case 'í': letra_en_ascii=161;
+		break;
+		case 'ó': letra_en_ascii=162;
+		break;
+		case 'ú': letra_en_ascii=163;
+		break;
+	}
+		
+return letra_en_ascii;	
+}
+
+
 void input_string(cadena palabra)
 {
 	fflush(stdin);
@@ -559,8 +593,13 @@ void poner_guion_bajo(cadena palabra_mostrar,cadena palabra_secreta)
 {
 	int posicion;
 	for (posicion=0;posicion<strlen(palabra_secreta);posicion++)
-		palabra_mostrar[posicion]='_';
+		if (palabra_secreta[posicion]!=' ')
+			palabra_mostrar[posicion]='_';
+		else
+			palabra_mostrar[posicion]=' ';	
 	palabra_mostrar[strlen(palabra_secreta)]='\0';
+
+return;
 }
 
 void mostras_y_modificar_letras_ingresadas(cadena letras_ingresadas,cadena letra)
@@ -620,11 +659,21 @@ void pantalla_actual(cadena palabra_mostrar,cadena letras_ingresadas,int intento
 }
 
 
+bool letra_valida(char letra)
+{
+	bool valido=false;
+	if ((letra<='Z' && letra>='A') || letra==(char)ascii('Ñ') || letra==(char)ascii('Á') || letra==(char)ascii('É') || letra==(char)ascii('Í') || letra==(char)ascii('Ó') || letra==(char)ascii('Ú'))
+		valido=true;
+	
+return valido;	
+}
+
+
 void input(cadena letra_ingresada,cadena palabra_mostrar,cadena letras_ingresadas,int intentos)
 {
 	printf("\n\n\n");
 	input_string(letra_ingresada);
-	while (strlen(letra_ingresada)>1 || (int)letra_ingresada[0]>(int)'Z' || (int)letra_ingresada[0]<(int)'A'){
+	while (strlen(letra_ingresada)>1 || !letra_valida(letra_ingresada[0])){
 		system("@cls||clear");
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
 		printf("\n\nPor ingrese solo una letra mayuscula:\n");
@@ -640,7 +689,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\n�AHORCADO!\n\n");
+		printf("\n\n¡AHORCADO!\n\n");
 		vec_valor[numero_jugador].puntaje = 10;
 		system("PAUSE");
 		system("@cls||clear");
