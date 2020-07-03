@@ -490,6 +490,8 @@ MODULOS DEL FUNCIONAMIENTO DEL JUEGO
 
 */
 
+/*DIBUJO AHORCADO */
+
 void gancho_cabeza(int veces_errado)
 {
 	printf(" _____\n");
@@ -525,7 +527,7 @@ void piernas_y_base(veces_errado)
 	printf("\n|_______|");
 }
 
-
+/*Partes juntas*/
 void dibujo_colgado(int veces_errado)
 {
 	gancho_cabeza(veces_errado);
@@ -536,7 +538,8 @@ void dibujo_colgado(int veces_errado)
 
 /*Partida*/
 
-int ascii(char letra)
+
+int ascii(char letra)    // Esta función es en el caso de que no corresponda el valor de las letras con el de la tabla ASCII  
 {
 	int letra_en_ascii;
 	switch(letra){
@@ -566,10 +569,11 @@ int ascii(char letra)
 		break;
 	}
 		
-return letra_en_ascii;	
+	return letra_en_ascii;	
 }
 
 
+//Entrada de una cadena
 void input_string(cadena palabra)
 {
 	fflush(stdin);
@@ -579,6 +583,7 @@ void input_string(cadena palabra)
 }
 
 
+//Busca una letra por strstr() y solo indica si esta o no
 bool buscar_letra(cadena palabra_secreta,cadena letra_ingresada)
 {
 	bool encontrado=true;
@@ -589,6 +594,7 @@ bool buscar_letra(cadena palabra_secreta,cadena letra_ingresada)
 }
 
 
+//Inicia la cadena que se muestra al lado del colgado con _ y ' ' según corresponda
 void poner_guion_bajo(cadena palabra_mostrar,cadena palabra_secreta)
 {
 	int posicion;
@@ -599,9 +605,9 @@ void poner_guion_bajo(cadena palabra_mostrar,cadena palabra_secreta)
 			palabra_mostrar[posicion]=' ';	
 	palabra_mostrar[strlen(palabra_secreta)]='\0';
 
-return;
 }
 
+//Modifica y muestra la cadena que esta por debajo del colgado con las letras que se vallan ingresando
 void mostras_y_modificar_letras_ingresadas(cadena letras_ingresadas,cadena letra)
 {
 	int auxiliar=strlen(letras_ingresadas);
@@ -614,6 +620,7 @@ void mostras_y_modificar_letras_ingresadas(cadena letras_ingresadas,cadena letra
 }
 
 
+//Modifica la cadena al lado del colgado con la pista y si la letra ingresada es parte de la palabra 
 void modificar_palabra_mostrar(cadena palabra_mostrar,cadena palabra_secreta,cadena pista,cadena letra_ingresada)
 {
 	int posicion;
@@ -624,6 +631,7 @@ void modificar_palabra_mostrar(cadena palabra_mostrar,cadena palabra_secreta,cad
 }
 
 
+//Prepara y muestra la pantalla inicial
 void pantalla_inicial(cadena palabra_mostrar,cadena palabra_secreta,cadena pista,int intentos)
 {
 	poner_guion_bajo(palabra_mostrar,palabra_secreta);
@@ -632,7 +640,7 @@ void pantalla_inicial(cadena palabra_mostrar,cadena palabra_secreta,cadena pista
 	printf("  %s\n",palabra_mostrar);
 }
 
-
+//Prepara y muestra la pantalla de la letra acertada
 void pantalla_acertado(cadena palabra_mostrar,cadena palabra_secreta,cadena pista,cadena letra_ingresada,cadena letras_ingresadas,int intentos)
 {
 	modificar_palabra_mostrar(palabra_mostrar,palabra_secreta,pista,letra_ingresada);
@@ -641,7 +649,7 @@ void pantalla_acertado(cadena palabra_mostrar,cadena palabra_secreta,cadena pist
 	mostras_y_modificar_letras_ingresadas(letras_ingresadas,letra_ingresada);
 }
 
-
+//Prepara y muestra la pantalla de la letra no acertada
 void pantalla_equivocado(cadena palabra_mostrar,cadena letras_ingresadas,cadena letra_ingresada,int intentos)
 {
 	dibujo_colgado(intentos-1);
@@ -651,6 +659,7 @@ void pantalla_equivocado(cadena palabra_mostrar,cadena letras_ingresadas,cadena 
 }
 
 
+//Muestra la pantalla con los parametros de entrada
 void pantalla_actual(cadena palabra_mostrar,cadena letras_ingresadas,int intentos)
 {
 	dibujo_colgado(intentos-1);
@@ -659,16 +668,18 @@ void pantalla_actual(cadena palabra_mostrar,cadena letras_ingresadas,int intento
 }
 
 
+//Indicia si la letra es una entrada valida
 bool letra_valida(char letra)
 {
 	bool valido=false;
 	if ((letra<='Z' && letra>='A') || letra==(char)ascii('Ñ') || letra==(char)ascii('Á') || letra==(char)ascii('É') || letra==(char)ascii('Í') || letra==(char)ascii('Ó') || letra==(char)ascii('Ú'))
 		valido=true;
 	
-return valido;	
+	return valido;	
 }
 
 
+//Ingreso y validacion de letras
 void input(cadena letra_ingresada,cadena palabra_mostrar,cadena letras_ingresadas,int intentos)
 {
 	printf("\n\n\n");
@@ -683,20 +694,21 @@ void input(cadena letra_ingresada,cadena palabra_mostrar,cadena letras_ingresada
 }
 
 
+//Prepara y muestra la pantalla segun se pierda o se gane
 void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_ingresadas,int intentos, int numero_jugador, Valor vec_valor[])
 {
 	if (intentos==max_intentos+1) {
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\n¡AHORCADO!\n\n");
+		printf("\n\n!AHORCADO¡\n\n");
 		vec_valor[numero_jugador].puntaje = 10;
 		system("PAUSE");
 		system("@cls||clear");
 	} else {
 		system("@cls||clear");
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\nSE HA COMPLETADO LA PALABRA\n\n");
+		printf("\n\n!SE HA COMPLETADO LA PALABRA¡\n\n");
 		vec_valor[numero_jugador].puntaje = intentos-1; //Aca a veces se genera un error y no logro descubrir porque. Dice que no puede acceder a esa direccion de memoria.
 		system("PAUSE");
 		system("@cls||clear");
@@ -704,6 +716,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 }
 
 
+//Logica del juego uinendo las funciones anteriores
 void juego(cadena palabra_secreta,cadena pista, int cantidad_jugadores, Valor vec_valor[])
 {
     int numero_jugador = 0;
@@ -853,7 +866,7 @@ void modificar_valores(Valor vec_valor[], Participantes vec_jugadores[], Partici
     }
 }
 
-
+//Entrada de datos y ejecucion de todas las partidas
 void partida(Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_palabras[max_categorias], int cont_categorias, int tot_palabras)
 {
 	cadena palabra_secreta,pista;
@@ -871,7 +884,8 @@ void partida(Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_palabras[m
 		indice_palabra_aleatorio=rand() % cont_palabras[indice_categoria_aleatorio];
 		strcpy(palabra_secreta, palabras[indice_categoria_aleatorio][indice_palabra_aleatorio]);
 		strcpy(pista, pistas[indice_categoria_aleatorio][indice_palabra_aleatorio]);
-		
+	    
+	//Ejecuta el juego y despues muestra los resultados 	
         juego(palabra_secreta,pista, cantidad_jugadores, valor);
         modificar_valores(valor, participantes, participantes_ordenado, cantidad_partidas, cantidad_jugadores);
         ordenar_ganador(participantes, Aux, cantidad_jugadores, cantidad_partidas);
