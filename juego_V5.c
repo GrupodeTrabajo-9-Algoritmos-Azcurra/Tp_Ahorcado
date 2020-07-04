@@ -135,6 +135,9 @@ void poner_guion_bajo(cadena palabra_mostrar,cadena palabra_secreta)
 {
 	int posicion;
 	for (posicion=0;posicion<strlen(palabra_secreta);posicion++)
+		if(palabra_mostrar[posicion]==' ')
+		palabra_mostrar[posicion]=' ';
+		else
 		palabra_mostrar[posicion]='_';
 	palabra_mostrar[strlen(palabra_secreta)]='\0';
 
@@ -232,7 +235,7 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
 		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos);
-		printf("\n\n!AHORCADO¡\n\n");
+		printf("\n\n!AHORCADOÂ¡\n\n");
 		vec_valor[numero_jugador].puntaje = 10;
 		system("PAUSE");
 		system("cls");
