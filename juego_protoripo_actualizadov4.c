@@ -131,7 +131,11 @@ void poner_guion_bajo(cadena palabra_mostrar,cadena palabra_secreta)
 {
 	int posicion;
 	for (posicion=0;posicion<strlen(palabra_secreta);posicion++)
-		palabra_mostrar[posicion]='_';
+		if(palabra_secreta[posicion]==' ')
+		palabra_mostrar[posicion]=' ';
+		else
+		palabra_mostrar[posicion]='_';	
+		
 	palabra_mostrar[strlen(palabra_secreta)]='\0';
 
 return;
