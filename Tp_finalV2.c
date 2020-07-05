@@ -786,7 +786,7 @@ int cantidad_partidass()
     int resultado;
     bool seguir = true;
     while (seguir){
-        printf("Ingrese la cantidad de jugadores: ");
+        printf("Ingrese la cantidad de partidas: ");
         scanf("%s", &cantidad_partidas);
         fflush(stdin);
         if (validar_numeros(cantidad_partidas)){
