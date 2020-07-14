@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <ctype.h>			 
 #define max_caracteres 50
 #define max_categorias 20
 #define max_palabras 20
@@ -135,11 +135,11 @@ int validar_existencia_palabra(cadena palabra, Tpalabra_pista palabras, int indi
 	return posicion;
 }
 
-//Validar que el caracter ingresado como pista este contenido en la palabra
+//Validar que la pista no este vacia
 bool validar_pista(cadena pista, cadena palabra) {
 	bool pista_valida=true;
 
-	if(strlen(pista)!=1 || strstr(palabra, pista)==0 || pista[0]==32) {
+	if(strlen(pista)==0) {
 		pista_valida=false;
 	}
 
@@ -932,6 +932,7 @@ void partida(Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_palabras[m
 {
 	cadena palabra_secreta,pista;
 	int cantidad_partidas, cantidad_jugadores, indice_categoria_aleatorio, indice_palabra_aleatorio;
+					 
     cantidad_jugadores = cantidad_jugadoress();
     cantidad_partidas = cantidad_partidass();
     Participantes participantes[cantidad_jugadores], Aux[1], participantes_ordenado[cantidad_jugadores];
