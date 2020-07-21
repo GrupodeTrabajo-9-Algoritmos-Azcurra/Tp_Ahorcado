@@ -837,7 +837,7 @@ void cargar_jugadores(Participantes vec_jugadores[], Participantes vec_jugadores
 
 
 //Mostrar resultados parciales y finales despues de la partida
-void mostrar_estatus(Participantes vec_jugadores[], Participantes aux[1], int cantidad_jugadores, int cantidad_partidas)
+void mostrar_estatus(Participantes vec_jugadores[], int cantidad_jugadores, int cantidad_partidas)
 {
     int i;
     if (cantidad_partidas > 1){
@@ -866,25 +866,16 @@ void mostrar_estatus(Participantes vec_jugadores[], Participantes aux[1], int ca
 }
 
 //Ordenar y definir el jugador ganador
-void ordenar_ganador(Participantes vec_jugadores[], Participantes aux[], int cantidad_jugadores, int cantidad_partidas)
+void ordenar_ganador(Participantes vec_jugadores[], Participantes aux, int cantidad_jugadores, int cantidad_partidas)
 {
     int i, j;
     if (cantidad_partidas > 1){
         for(i=0;i<cantidad_jugadores;i++){
             for (j=0 ; j < cantidad_jugadores - 1; j++){
                 if (vec_jugadores[j].puntaje_actual < vec_jugadores[j+1].puntaje_actual){
-                    strcpy(aux[j].nombre_participantes, vec_jugadores[j].nombre_participantes);
-                    strcpy(vec_jugadores[j].nombre_participantes, vec_jugadores[j+1].nombre_participantes);
-                    strcpy(vec_jugadores[j+1].nombre_participantes, aux[j].nombre_participantes);
-                    aux[j].puntaje_actual = vec_jugadores[j].puntaje_actual;
-                    vec_jugadores[j].puntaje_actual = vec_jugadores[j+1].puntaje_actual;
-                    vec_jugadores[j+1].puntaje_actual = aux[j].puntaje_actual;
-                    aux[j].puntaje_total = vec_jugadores[j].puntaje_total;
-                    vec_jugadores[j].puntaje_total = vec_jugadores[j+1].puntaje_total;
-                    vec_jugadores[j+1].puntaje_total = aux[j].puntaje_total;
-                    aux[j].identificador = vec_jugadores[i].identificador;
-                    vec_jugadores[j].identificador = vec_jugadores[j+1].identificador;
-                    vec_jugadores[j+1].identificador = aux[j].identificador;
+					aux=vec_jugadores[j];
+					vec_jugadores[j]=vec_jugadores[j+1];
+					vec_jugadores[j+1]=aux;
                 }
             }
         }
@@ -893,18 +884,9 @@ void ordenar_ganador(Participantes vec_jugadores[], Participantes aux[], int can
             for (j=0 ; j < cantidad_jugadores - 1; j++){
                 if ((vec_jugadores[j].puntaje_total) < (vec_jugadores[j+1].puntaje_total))
                 {
-                    strcpy(aux[j].nombre_participantes, vec_jugadores[j].nombre_participantes);
-                    strcpy(vec_jugadores[j].nombre_participantes, vec_jugadores[j+1].nombre_participantes);
-                    strcpy(vec_jugadores[j+1].nombre_participantes, aux[j].nombre_participantes);
-                    aux[j].puntaje_actual = vec_jugadores[j].puntaje_actual;
-                    vec_jugadores[j].puntaje_actual = vec_jugadores[j+1].puntaje_actual;
-                    vec_jugadores[j+1].puntaje_actual = aux[j].puntaje_actual;
-                    aux[j].puntaje_total = vec_jugadores[j].puntaje_total;
-                    vec_jugadores[j].puntaje_total = vec_jugadores[j+1].puntaje_total;
-                    vec_jugadores[j+1].puntaje_total = aux[j].puntaje_total;
-                    aux[j].identificador = vec_jugadores[i].identificador;
-                    vec_jugadores[j].identificador = vec_jugadores[j+1].identificador;
-                    vec_jugadores[j+1].identificador = aux[j].identificador;
+                    aux=vec_jugadores[j];
+                    vec_jugadores[j]=vec_jugadores[j+1];
+                    vec_jugadores[j+1]=aux;
                 }
             }
         }
@@ -935,7 +917,7 @@ void partida(Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_palabras[m
 					 
     cantidad_jugadores = cantidad_jugadoress();
     cantidad_partidas = cantidad_partidass();
-    Participantes participantes[cantidad_jugadores], Aux[1], participantes_ordenado[cantidad_jugadores];
+    Participantes participantes[cantidad_jugadores], Aux, participantes_ordenado[cantidad_jugadores];
     Valor valor[cantidad_jugadores];
     cargar_jugadores(participantes, participantes_ordenado, cantidad_jugadores);
     system("@cls||clear");
@@ -951,7 +933,7 @@ void partida(Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_palabras[m
         juego(palabra_secreta,pista, cantidad_jugadores, valor,participantes);
         modificar_valores(valor, participantes, participantes_ordenado, cantidad_partidas, cantidad_jugadores);
         ordenar_ganador(participantes, Aux, cantidad_jugadores, cantidad_partidas);
-        mostrar_estatus(participantes, Aux, cantidad_jugadores, cantidad_partidas);
+        mostrar_estatus(participantes, cantidad_jugadores, cantidad_partidas);
         cantidad_partidas--;
     }
 }
