@@ -644,19 +644,19 @@ void modificar_palabra_mostrar(cadena palabra_mostrar,cadena palabra_secreta,cad
 }
 
 //Prepara y muestra la pantalla inicial
-void pantalla_inicial(cadena palabra_mostrar,cadena palabra_secreta,cadena pista,int intentos,Participantes participantes[],int numero_jugador)
+void pantalla_inicial(cadena palabra_mostrar,cadena palabra_secreta,cadena pista,int intentos,Participantes participantes[],Participantes participantes_ordenado[],int numero_jugador)
 {
 	poner_guion_bajo(palabra_mostrar,palabra_secreta);
-	printf("Es el turno de: %s\n",participantes[numero_jugador].nombre_participantes);
+	printf("Es el turno de: %s\n",participantes_ordenado[numero_jugador].nombre_participantes);
 	dibujo_colgado(intentos-1);
 	printf("  %s\tPista: %s",palabra_mostrar,pista);
 }
 
 //Prepara y muestra la pantalla de la letra acertada
-void pantalla_acertado(cadena palabra_mostrar,cadena palabra_secreta,cadena pista,cadena letra_ingresada,cadena letras_ingresadas,int intentos,Participantes participantes[],int numero_jugador)
+void pantalla_acertado(cadena palabra_mostrar,cadena palabra_secreta,cadena pista,cadena letra_ingresada,cadena letras_ingresadas,int intentos,Participantes participantes[],Participantes participantes_ordenado[],int numero_jugador)
 {
 	modificar_palabra_mostrar(palabra_mostrar,palabra_secreta,letra_ingresada);
-	printf("Es el turno de: %s\n",participantes[numero_jugador].nombre_participantes);
+	printf("Es el turno de: %s\n",participantes_ordenado[numero_jugador].nombre_participantes);
 	dibujo_colgado(intentos-1);
 	printf("  %s\tPista: %s\n\n",palabra_mostrar,pista);
 	mostrar_y_modificar_letras_ingresadas(letras_ingresadas,letra_ingresada);
@@ -664,31 +664,31 @@ void pantalla_acertado(cadena palabra_mostrar,cadena palabra_secreta,cadena pist
 }
 
 //Prepara y muestra la pantalla de la letra no acertada
-void pantalla_equivocado(cadena palabra_mostrar,cadena letras_ingresadas,cadena letra_ingresada,int intentos,cadena pista,Participantes participantes[],int numero_jugador)
+void pantalla_equivocado(cadena palabra_mostrar,cadena letras_ingresadas,cadena letra_ingresada,int intentos,cadena pista,Participantes participantes[],Participantes participantes_ordenado[],int numero_jugador)
 {
-	printf("Es el turno de: %s\n",participantes[numero_jugador].nombre_participantes);
+	printf("Es el turno de: %s\n",participantes_ordenado[numero_jugador].nombre_participantes);
 	dibujo_colgado(intentos-1);
 	printf("  %s\tPista: %s\n\n",palabra_mostrar,pista);
 	mostrar_y_modificar_letras_ingresadas(letras_ingresadas,letra_ingresada);
 }
 
 //Muestra la pantalla con los parametros de entrada
-void pantalla_actual(cadena palabra_mostrar,cadena letras_ingresadas,int intentos,cadena pista,Participantes participantes[],int numero_jugador)
+void pantalla_actual(cadena palabra_mostrar,cadena letras_ingresadas,int intentos,cadena pista,Participantes participantes[],Participantes participantes_ordenado[],int numero_jugador)
 {
-	printf("Es el turno de: %s\n",participantes[numero_jugador].nombre_participantes);
+	printf("Es el turno de: %s\n",participantes_ordenado[numero_jugador].nombre_participantes);
 	dibujo_colgado(intentos-1);
 	printf("  %s\tPista: %s\n\n",palabra_mostrar,pista);
 	printf("%s",letras_ingresadas);
 }
 
 //Ingreso y validacion de letras
-void input(cadena letra_ingresada,cadena palabra_mostrar,cadena letras_ingresadas,int intentos,cadena pista,Participantes participantes[],int numero_jugador)
+void input(cadena letra_ingresada,cadena palabra_mostrar,cadena letras_ingresadas,int intentos,cadena pista,Participantes participantes[],Participantes participantes_ordenado[],int numero_jugador)
 {
 	printf("\n\n\n");
 	input_string(letra_ingresada);
 	while (strlen(letra_ingresada)>1 || !letra_valida(letra_ingresada[0])){
 		system("@cls||clear");
-		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos,pista,participantes,numero_jugador);
+		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos,pista,participantes,participantes_ordenado,numero_jugador);
 		printf("\n\nPor ingrese solo una letra mayuscula:\n");
 		input_string(letra_ingresada);
 	}
@@ -696,19 +696,19 @@ void input(cadena letra_ingresada,cadena palabra_mostrar,cadena letras_ingresada
 }
 
 //Prepara y muestra la pantalla segun se pierda o se gane
-void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_ingresadas,int intentos, int numero_jugador, Valor vec_valor[],cadena pista,Participantes participantes[])
+void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_ingresadas,int intentos, int numero_jugador, Valor vec_valor[],cadena pista,Participantes participantes[],Participantes participantes_ordenado[])
 {
 	if (intentos==max_intentos+1) {
 		system("@cls||clear");
 		strcpy(palabra_mostrar,palabra_secreta);
-		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos,pista,participantes,numero_jugador);
+		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos,pista,participantes,participantes_ordenado,numero_jugador);
 		printf("\n\n!AHORCADO¡\n\n");
 		vec_valor[numero_jugador].puntaje = 10;
 		system("PAUSE");
 		system("@cls||clear");
 	} else {
 		system("@cls||clear");
-		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos,pista,participantes,numero_jugador);
+		pantalla_actual(palabra_mostrar,letras_ingresadas,intentos,pista,participantes,participantes_ordenado,numero_jugador);
 		printf("\n\n!SE HA COMPLETADO LA PALABRA¡\n\n");
 		vec_valor[numero_jugador].puntaje = intentos-1; 
 		system("PAUSE");
@@ -717,25 +717,25 @@ void pantalla_final(cadena palabra_secreta,cadena palabra_mostrar,cadena letras_
 }
 
 //Logica del juego uniendo las funciones anteriores
-void juego(cadena palabra_secreta,cadena pista, int cantidad_jugadores, Valor vec_valor[],Participantes participantes[])
+void juego(cadena palabra_secreta,cadena pista, int cantidad_jugadores, Valor vec_valor[],Participantes participantes[],Participantes participantes_ordenado[])
 {
     int numero_jugador = 0;
     for (numero_jugador=0; numero_jugador<cantidad_jugadores; numero_jugador++){
         int posicion,intentos=1;
         cadena palabra_mostrar,letras_ingresadas,letra_ingresada;
         letras_ingresadas[0]='\0';                                    //Inicio el string para la funcion "mostrar_y_modificar_letras_ingresadas"
-		pantalla_inicial(palabra_mostrar,palabra_secreta,pista,intentos,participantes,numero_jugador);
+		pantalla_inicial(palabra_mostrar,palabra_secreta,pista,intentos,participantes,participantes_ordenado,numero_jugador);
         do {
-            input(letra_ingresada,palabra_mostrar,letras_ingresadas,intentos,pista,participantes,numero_jugador);
+            input(letra_ingresada,palabra_mostrar,letras_ingresadas,intentos,pista,participantes,participantes_ordenado,numero_jugador);
             if (buscar_letra(palabra_secreta,letra_ingresada))
-                pantalla_acertado(palabra_mostrar,palabra_secreta,pista,letra_ingresada,letras_ingresadas,intentos,participantes,numero_jugador);
+                pantalla_acertado(palabra_mostrar,palabra_secreta,pista,letra_ingresada,letras_ingresadas,intentos,participantes,participantes_ordenado,numero_jugador);
             else {
                 if (!buscar_letra(letras_ingresadas,letra_ingresada))
                     intentos++;
-                pantalla_equivocado(palabra_mostrar,letras_ingresadas,letra_ingresada,intentos,pista,participantes,numero_jugador);
+                pantalla_equivocado(palabra_mostrar,letras_ingresadas,letra_ingresada,intentos,pista,participantes,participantes_ordenado,numero_jugador);
             }
         } while (intentos<=max_intentos && strcmp(palabra_mostrar,palabra_secreta)!=0);
-        pantalla_final(palabra_secreta,palabra_mostrar,letras_ingresadas,intentos, numero_jugador, vec_valor,pista,participantes);
+        pantalla_final(palabra_secreta,palabra_mostrar,letras_ingresadas,intentos, numero_jugador, vec_valor,pista,participantes,participantes_ordenado);
     }
 }
 
@@ -930,7 +930,7 @@ void partida(Tpalabra_pista palabras, Tpalabra_pista pistas, int cont_palabras[m
 		strcpy(pista, pistas[indice_categoria_aleatorio][indice_palabra_aleatorio]);
 
 	//Ejecuta el juego y despues muestra los resultados
-        juego(palabra_secreta,pista, cantidad_jugadores, valor,participantes);
+        juego(palabra_secreta,pista, cantidad_jugadores, valor,participantes,participantes_ordenado);
         modificar_valores(valor, participantes, participantes_ordenado, cantidad_partidas, cantidad_jugadores);
         ordenar_ganador(participantes, Aux, cantidad_jugadores, cantidad_partidas);
         mostrar_estatus(participantes, cantidad_jugadores, cantidad_partidas);
